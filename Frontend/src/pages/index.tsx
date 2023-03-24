@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const Home = () => {
+const Home = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (
