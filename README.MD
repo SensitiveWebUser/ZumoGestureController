@@ -1,7 +1,7 @@
 <h1 align="center">Zumo Gesture Controller Project</h1>
 
 <div align="center">
-  <strong>HR Web Application</strong>
+  <strong>Zumo Gesture Controller Project</strong>
 </div>
 <div align="center">
 Welcome to my GitHub repository! This project is a full-stack application comprising of a modern React-based frontend, Node Express backend, Arduino Zumo robot, and Raspberry Pi Pico W controller.
