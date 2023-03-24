@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "description": "The frontend for my zumo hand guided webpage",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SensitiveWebUser/ZumoGestureController/Frontend"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
