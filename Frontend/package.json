@@ -5,7 +5,7 @@
   "description": "The frontend for my zumo hand guided webpage",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SensitiveWebUser/ZumoGestureController/Frontend"
+    "url": "https://github.com/SensitiveWebUser/FYP/tree/master/frontend"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
