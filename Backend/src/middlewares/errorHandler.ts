@@ -1,17 +1,16 @@
-import type { NextFunction, Request, Response } from 'express';
+import type { Request, Response } from 'express';
 
-import debug from 'debug';
+import debug, { Debugger } from 'debug';
 
-const logger = debug('backend:express-error');
+const logger: Debugger = debug('backend:express-error');
 
 import { CustomError } from '../errors';
 
 export const errorHandler = (
   err: Error,
   req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+  res: Response
+): Response => {
   if (err instanceof CustomError) {
     logger(`error handled with status code ${err.statusCode} `);
     return res.status(err.statusCode).send({ errors: err.serializeErrors() });

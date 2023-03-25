@@ -1,5 +1,5 @@
 {
-  "name": "zumo_hand_guide_frontend",
+  "name": "zumo_gesture_controller_frontend",
   "version": "1.0.0",
   "private": true,
   "description": "The frontend for my zumo hand guided webpage",
@@ -63,6 +63,7 @@
     "react-i18next": "^12.2.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "socket.io-client": "^4.6.1",
     "typescript": "^5.0.2",
     "web-vitals": "^2.1.4"
   },

@@ -3,7 +3,8 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: __dirname + '/../.env.local' });
 
 // Import packages
-import debug from 'debug';
+import debug, { Debugger } from 'debug';
+import { Server } from 'http';
 
 // Import App from app.js
 import { app } from './app';
@@ -12,13 +13,15 @@ import { app } from './app';
 import sockets from './sockets';
 
 // Create debug logger
-const logger = debug('backend:startup');
+const logger: Debugger = debug('backend:startup');
 
 // Add Port
-const port = process.env.PORT || 3001;
+const port: string | number = (process.env.PORT as string) || 3001;
 
 // Start server
-const server = app.listen(port, () => logger(`Listening on port ${port}...`));
+const server: Server = app.listen(port, () => {
+  logger(`Listening on port ${port}...`);
 
-// Start socket
-sockets(server);
+  // Start socket
+  sockets(server);
+});
