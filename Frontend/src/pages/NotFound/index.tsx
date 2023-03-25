@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, Theme } from '@mui/material/styles';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,9 +7,9 @@ import Grid from '@mui/material/Grid';
 
 import ErrorIcon from '@mui/icons-material/Error';
 
-const NotFound = () => {
-  const { t } = useTranslation();
-  const theme = useTheme();
+const NotFound = (): JSX.Element => {
+  const { t }: any = useTranslation();
+  const theme: Theme = useTheme();
 
   return (
     <Box

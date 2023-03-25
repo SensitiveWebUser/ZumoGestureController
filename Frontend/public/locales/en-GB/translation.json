@@ -1,7 +1,8 @@
 {
   "pages": {
     "home": {
-      "title": "Home"
+      "title": "Home",
+      "subtitle": "This is the home page"
     },
     "about": {
       "title": "About"
@@ -17,6 +18,34 @@
     },
     "footer": {
       "title": "Footer"
+    },
+    "controller": {
+      "title": "Controller",
+      "subtitle": "Control the robot, using the buttons below.",
+      "forwards": "Forwards",
+      "backwards": "Backwards",
+      "left": "Left",
+      "right": "Right",
+      "stop": "Stop",
+      "speedUp": "Speed Up",
+      "speedDown": "Speed Down",
+      "speedValue": "Speed Value",
+      "idle": "Idle"
+    },
+    "gesturePanel": {
+      "title": "Gesture Panel",
+      "subtitle": "Control the robot, using the hand gestures.",
+      "gestures": {
+        "forwards": "Forwards",
+        "backwards": "Backwards",
+        "left": "Left",
+        "right": "Right",
+        "stop": "Stop",
+        "speedUp": "Speed Up",
+        "speedDown": "Speed Down",
+        "speedValue": "Speed Value",
+        "idle": "Idle"
+      }
     }
   },
   "default": {}

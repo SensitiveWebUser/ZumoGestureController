@@ -1,8 +1,8 @@
 // Import packages
-import cors from 'cors';
-import debug from 'debug';
+import express, { Request, Application } from 'express';
+import debug, { Debugger } from 'debug';
 import helmet from 'helmet';
-import express, { Request, Response } from 'express';
+import cors from 'cors';
 
 // Import middlewares
 import { errorHandler } from './middlewares';
@@ -11,13 +11,13 @@ import { errorHandler } from './middlewares';
 import { NotFoundError } from './errors';
 
 // Create debug logger
-const logger = debug('backend:request');
+const logger: Debugger = debug('backend:request');
 
 // Log initialization
 logger('Initializing app...');
 
 // Create Express App
-const app = express();
+const app: Application = express();
 
 // cors rules
 app.use(cors());
@@ -26,9 +26,9 @@ app.use(cors());
 app.use(helmet());
 
 // Add 404 handler
-app.all('*', async (req: Request, res: Response) => {
+app.all('*', async (req: Request): Promise<void> => {
   logger(`route ${req.url} does not exist. `);
-  res.status(404).json({ error: 'route does not exist' });
+  throw new NotFoundError();
 });
 
 // Add error handling

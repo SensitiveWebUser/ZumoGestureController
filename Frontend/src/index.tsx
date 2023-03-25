@@ -1,29 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { StrictMode } from 'react';
+import * as ReactDOMClient from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
 
 import App from './App';
 import i18n from './i18n';
+import { SocketContext, socket } from './context/socket';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, responsiveFontSizes } from '@mui/material/styles';
+import {
+  Theme,
+  ThemeProvider,
+  responsiveFontSizes,
+} from '@mui/material/styles';
 
 import darkTheme from './styles/darkTheme';
 
-const theme = responsiveFontSizes(darkTheme);
+const theme: Theme = responsiveFontSizes(darkTheme);
 
-ReactDOM.render(
-  <React.StrictMode>
+const container: HTMLElement = document.getElementById('root');
+const root: ReactDOMClient.Root = ReactDOMClient.createRoot(container);
+
+root.render(
+  <StrictMode>
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
+        <SocketContext.Provider value={socket}>
+          <CssBaseline />
+          <App />
+        </SocketContext.Provider>
       </ThemeProvider>
     </I18nextProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
 
 serviceWorkerRegistration.unregister();
