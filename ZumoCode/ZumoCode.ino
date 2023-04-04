@@ -13,8 +13,14 @@ Zumo32U4Motors motors;
 Zumo32U4Buzzer buzzer;
 Zumo32U4IMU imu;
 
+// Sets If Debug State
+static const bool DEBUG_STATE = true;
+
 // Sets Serial Communication type
 #define SERIAL_COM Serial1
+
+// Sets Debuger Serial Communication type
+#define SERIAL_DEBUGER_COM Serial
 
 // Motor speed variables
 #define MOTOR_SPEED 100
@@ -30,8 +36,25 @@ static const uint16_t EVENT_LED_INTERVAL = 1000;
 #include "TurnSensor.h"
 #include "Util.h"
 
+/* Incoming codes list
+  - 1: Moves Zumo Forwards
+  - 2: Moves Zumo Left
+  - 3: Moves Zumo Right
+  - 4: Moves Zumo Backwards
+  - 5: Accelerate Zumo Motor Speeds
+  - 6: Decelerate Zumo Motor Speeds
+  ...
+  - 9: Stops Motors
+*/
+
 void setup() {
-   // Initialize Serial communication
+
+  // Initialize debuger systems
+  if(DEBUG_STATE){
+    SERIAL_DEBUGER_COM.begin(9600);
+  }
+
+  // Initialize Serial communication
   SERIAL_COM.begin(9600);
 
   // Initialize line sensors and proximity sensors
@@ -44,23 +67,65 @@ void setup() {
 
 // Loop function that runs continuously
 void loop() {
-  
+
   // Check for incoming Serial commands
   if (SERIAL_COM.available() > 0) {
 
     // Read the command from the Serial buffer
-    String cmd = SERIAL_COM.readStringUntil('\n');
-    
+    char cmd = SERIAL_COM.readStringUntil('\n')[0];
+
+    // Sets GREEN LED on
+    ledGreen(HIGH);
+
+    Logger(cmd);
+
     control(cmd);
 
     SerialFlush();
   }
-
 }
 
 // Function to handle manual control commands
-void control(String cmd) {
+void control(char cmd) {
 
-  if (cmd == "") return;
   
+
+    switch (cmd) {
+      case '1':
+        // Set both motors to run forward at the same speed
+        motors.setSpeeds(motorSpeed, motorSpeed);
+        Logger("Moving Zumo Forwards");
+        break;
+      case '2':
+        // Set the left motor to run backward and the right motor to run forward
+        motors.setSpeeds(-rotationSpeed, rotationSpeed);
+        Logger("Moving Zumo Left");
+        break;
+      case '3':
+        // Set the left motor to run forward and the right motor to run backward
+        motors.setSpeeds(rotationSpeed, -rotationSpeed);
+        Logger("Moving Zumo Right");
+        break;
+      case '4':
+        // Set both motors to run backward at the same speed
+        motors.setSpeeds(-motorSpeed, -motorSpeed);
+        Logger("Moving Zumo Backwards");
+        break;
+      case '5':
+        // Increase the speed multiplier
+        updateMultiplier(multiplier + 1);
+        Logger("Speeding Zumo Up");
+        break;
+      case '6':
+        // Decrease the speed multiplier
+        updateMultiplier(multiplier - 1);
+        Logger("Slowing Zumo Down");
+        break;
+      case '9':
+      default:
+        // Stop both motors
+        motors.setSpeeds(0, 0);
+        Logger("Stopping Zumo");
+    }
+
 }

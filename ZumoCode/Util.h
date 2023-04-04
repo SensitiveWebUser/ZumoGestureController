@@ -1,3 +1,4 @@
+#include "WString.h"
 #pragma once
 
 // Function to update the speed multiplier
@@ -15,6 +16,23 @@ void updateMultiplier(int m) {
 void SerialFlush() {
   // Read and discard any data in the Serial buffer
   while (SERIAL_COM.available() > 0) SERIAL_COM.read();
+
+  // Sets GREEN LED OFF
+  ledGreen(LOW);
+}
+
+// Function to log to the debug serial data
+void Logger(String message){ 
+  if(DEBUG_STATE){
+    SERIAL_DEBUGER_COM.println(message);
+  }
+}
+
+// Function to log to the debug serial data
+void Logger(char message){ 
+  if(DEBUG_STATE){
+    SERIAL_DEBUGER_COM.println(message);
+  }
 }
 
 // Function to rotate the robot by the specified angle at the specified speed
