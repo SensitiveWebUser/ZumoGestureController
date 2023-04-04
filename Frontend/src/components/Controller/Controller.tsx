@@ -14,10 +14,13 @@ import CardContent from '@mui/material/CardContent';
 import { Button } from '../Button';
 
 enum Movement {
-  Forward = 'forward',
-  Backward = 'backward',
-  Left = 'left',
-  Right = 'right',
+  Forward = 'FORWARD',
+  Backward = 'BACKWARD',
+  Left = 'LEFT',
+  Right = 'RIGHT',
+  STOP = 'STOP',
+  ACCELERATE = 'ACCELERATE',
+  DECELERATE = 'DECELERATE',
 }
 
 export const Controller = (): JSX.Element => {
@@ -26,7 +29,7 @@ export const Controller = (): JSX.Element => {
   const socket: Socket = useContext(SocketContext);
 
   const handleMovement = (movement: Movement): void => {
-    socket.emit('movement', movement);
+    socket.emit('movement', movement as string);
   };
 
   return (
