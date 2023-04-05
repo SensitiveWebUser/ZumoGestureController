@@ -8,8 +8,10 @@ import { ZumoApiError } from './errors';
 // Create debug logger
 const logger: Debugger = debug('backend:zumoAPI');
 
+const baseURL: string = process.env!.RASPBERRY_PI_PICO as string;
+
 const instance: AxiosInstance = axios.create({
-  baseURL: process.env!.RASPBERRY_PI_PICO as string,
+  baseURL: baseURL,
   timeout: 500 as number,
 }) as AxiosInstance;
 
@@ -22,17 +24,18 @@ export const request: Function = async <T>(
     return response?.data;
   } catch (error: any) {
     logger(error);
-    throw new ZumoApiError();
+    throw Error(error);
   }
 };
 
 export const post: Function = async <T>(
-  params?: string,
+  params: string,
   data?: object
 ): Promise<void> => {
   try {
     logger('Posting data to Raspberry Pi Pico...');
-    const post = await instance.post(params || '', data || {});
+    const url: string = `${baseURL}${params}`;
+    await instance.post(url, data);
   } catch (error: any) {
     logger(error);
     throw new ZumoApiError();
