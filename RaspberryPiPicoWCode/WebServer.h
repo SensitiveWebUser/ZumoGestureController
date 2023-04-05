@@ -41,6 +41,8 @@ void handleNotFound() {
 }
 
 void handleMovement() {
+  Logger("Received Movement Command From Web Server");
+  
   if (server.method() != HTTP_POST) {
     server.send(405, "text/plain", "Method Not Allowed");
   } else {
