@@ -13,14 +13,28 @@ import CardContent from '@mui/material/CardContent';
 
 import { Button } from '../Button';
 
-enum Movement {
-  Forward = 'FORWARD',
-  Backward = 'BACKWARD',
-  Left = 'LEFT',
-  Right = 'RIGHT',
-  STOP = 'STOP',
-  ACCELERATE = 'ACCELERATE',
-  DECELERATE = 'DECELERATE',
+const Movement = {
+  Forward: {
+    horizontal: 0,
+    vertical: -1,
+  } as Imove,
+  Backward: {
+    horizontal: 0,
+    vertical: 1,
+  } as Imove,
+  Left: {
+    horizontal: -1,
+    vertical: 0,
+  } as Imove,
+  Right: {
+    horizontal: 1,
+    vertical: 0,
+  } as Imove,
+};
+
+interface Imove {
+  horizontal: number;
+  vertical: number;
 }
 
 export const Controller = (): JSX.Element => {
@@ -28,8 +42,12 @@ export const Controller = (): JSX.Element => {
   const theme: Theme = useTheme();
   const socket: Socket = useContext(SocketContext);
 
-  const handleMovement = (movement: Movement): void => {
-    socket.emit('movement', movement as string);
+  const handleMovement = (movement: Imove): void => {
+    socket.emit('movement', movement);
+  };
+
+  const handleSpeed = (speed: number): void => {
+    socket.emit('speed', speed);
   };
 
   return (
@@ -107,6 +125,40 @@ export const Controller = (): JSX.Element => {
                     <Button
                       text="components.controller.backwards"
                       onClick={(): void => handleMovement(Movement.Backward)}
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} mt={2}>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <Box width={'100%'} alignItems="center">
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button
+                      text="components.controller.speedDown"
+                      onClick={(): void => handleSpeed(-1)}
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={4}>
+                <Box width={'100%'} alignItems="center">
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button
+                      text="components.controller.stop"
+                      onClick={(): void => handleSpeed(0)}
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={4}>
+                <Box width={'100%'} alignItems="center">
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button
+                      text="components.controller.speedUp"
+                      onClick={(): void => handleSpeed(1)}
                     />
                   </Box>
                 </Box>
