@@ -91,10 +91,9 @@ const handleHandMovement = (frame) => {
     }
 
     // Send hand movement to the API
-    post('/movement/hand', {
-      horizontalMovement,
-      verticalMovement,
-    });
+    post(
+      `/movement?HORIZONTAL=${horizontalMovement}&VERTICAL=${verticalMovement}`
+    );
 
     // Log hand movement
     logger(`Hand left-right movement: ${leftRight} mm`);
@@ -122,7 +121,9 @@ const handleGestures = (frame) => {
         isActive = !isActive;
 
         // Send the active state to the API to toggle the stop
-        post('/toggleStop');
+        if (!isActive) {
+          post('/speed?SPEED=0');
+        }
         break;
       case 'keyTap':
         logger('Key tap gesture detected, data: ', gesture);
