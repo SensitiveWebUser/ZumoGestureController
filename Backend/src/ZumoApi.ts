@@ -17,14 +17,13 @@ const instance: AxiosInstance = axios.create({
 
 export const request: Function = async <T>(
   config: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => {
+): Promise<AxiosResponse<T> | void> => {
   try {
     logger('Requesting data from Raspberry Pi Pico...');
     const response: AxiosResponse<any, any> = await instance(config);
     return response?.data;
   } catch (error: any) {
-    logger(error);
-    throw Error(error);
+    logger(new ZumoApiError());
   }
 };
 
@@ -37,7 +36,6 @@ export const post: Function = async <T>(
     const url: string = `${baseURL}${params}`;
     await instance.post(url, data);
   } catch (error: any) {
-    logger(error);
-    throw new ZumoApiError();
+    logger(new ZumoApiError());
   }
 };
