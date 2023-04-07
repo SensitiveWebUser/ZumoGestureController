@@ -28,6 +28,10 @@ static uint16_t multiplier = 1;
 static uint16_t motorSpeed = MOTOR_SPEED * multiplier;
 static uint16_t rotationSpeed = MOTOR_SPEED * 0.5f;
 
+// Motor Speeds
+static int16_t leftMotorSpeed = 0;
+static int16_t rightMotorSpeed = 0;
+
 // Event LED variables
 static uint64_t prevLEDMillis = 0;
 static const uint16_t EVENT_LED_INTERVAL = 1000;
@@ -88,27 +92,29 @@ void loop() {
 // Function to handle manual control commands
 void control(char cmd) {
 
-  
-
     switch (cmd) {
       case '1':
         // Set both motors to run forward at the same speed
-        motors.setSpeeds(motorSpeed, motorSpeed);
+        leftMotorSpeed += motorSpeed;
+        rightMotorSpeed += motorSpeed;
         Logger("Moving Zumo Forwards");
         break;
       case '2':
         // Set the left motor to run backward and the right motor to run forward
-        motors.setSpeeds(-rotationSpeed, rotationSpeed);
+        leftMotorSpeed += -rotationSpeed;
+        rightMotorSpeed += rotationSpeed;
         Logger("Moving Zumo Left");
         break;
       case '3':
         // Set the left motor to run forward and the right motor to run backward
-        motors.setSpeeds(rotationSpeed, -rotationSpeed);
+        leftMotorSpeed += rotationSpeed;
+        rightMotorSpeed += -rotationSpeed;
         Logger("Moving Zumo Right");
         break;
       case '4':
         // Set both motors to run backward at the same speed
-        motors.setSpeeds(-motorSpeed, -motorSpeed);
+        leftMotorSpeed += -motorSpeed;
+        rightMotorSpeed += -motorSpeed;
         Logger("Moving Zumo Backwards");
         break;
       case '5':
@@ -124,8 +130,11 @@ void control(char cmd) {
       case '9':
       default:
         // Stop both motors
-        motors.setSpeeds(0, 0);
+        leftMotorSpeed = 0;
+        rightMotorSpeed = 0;
         Logger("Stopping Zumo");
     }
+
+    motors.setSpeeds(leftMotorSpeed, rightMotorSpeed);
 
 }
