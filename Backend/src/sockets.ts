@@ -67,9 +67,31 @@ export default (server: Server, leapMotion: any): void => {
 
     // Listen for movement event from client
     // Will then post movement to Raspberry Pi Pico based on button pressed on client
-    socket.on('movement', (movement: string = 'idle'): void => {
-      logger(`Movement Requested ${movement}`);
-      post(`/movement?MOVE=${movement}`);
+    socket.on(
+      'movement',
+      (movement: { horizontal: number; vertical: number }): void => {
+        logger('Movement Requested: ', movement);
+        post(
+          `/movement?HORIZONTAL=${movement.horizontal}&VERTICAL=${movement.vertical}`
+        );
+      }
+    );
+
+    // Listen for speed event from client
+    // Will then post speed to Raspberry Pi Pico based on slider value on client
+    socket.on('speed', (speed: number = 0): void => {
+      logger(`Speed Requested ${speed}`);
+      post(`/speed?SPEED=${speed}`);
+
+      /*
+if (speed > 0) {
+      socket.emit('accelerate');
+    } else if (speed < 0) {
+      socket.emit('decelerate');
+    } else {
+      socket.emit('stop');
+    }
+      */
     });
   });
 };
