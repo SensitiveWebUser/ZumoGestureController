@@ -21,11 +21,17 @@ export const GesturePanel = (): JSX.Element => {
   const [gesture, setGesture] = useState<string>('idle');
 
   socket.on('gesture', (gesture: string): void => {
+    console.log('Gesture received: ', gesture);
     setGesture(gesture);
   });
 
+  // Every 1 second, emit a gesture event to the server
   useEffect(() => {
-    socket.emit('gesture');
+    const interval = setInterval(() => {
+      socket.emit('gesture');
+    }, 1000);
+    return () => clearInterval(interval);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
