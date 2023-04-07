@@ -14,7 +14,6 @@ import sockets from './sockets';
 
 // Import LeapMotion from leapMotion.js
 import * as leapMotion from './leapMotion';
-leapMotion;
 
 // Create debug logger
 const logger: Debugger = debug('backend:startup');
@@ -27,5 +26,5 @@ const server: Server = app.listen(port, () => {
   logger(`Listening on port ${port}...`);
 
   // Start socket
-  sockets(server);
+  sockets(server, leapMotion);
 });

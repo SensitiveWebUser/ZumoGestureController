@@ -4,37 +4,69 @@ import { Server } from 'http';
 import { Server as SocketIO, Socket, ServerOptions } from 'socket.io';
 
 // Import API requests/post from zumoAPI.ts
-import { request, post } from './ZumoApi';
+import { post } from './ZumoApi';
 
 // Create debug logger
 const logger: Debugger = debug('backend:socket');
 
-export default (server: Server) => {
+// Export socket function
+export default (server: Server, leapMotion: any): void => {
+  // Log socket initialization
   logger('Initializing socket.io...');
 
+  // Set cors options
   const options: ServerOptions = {
     cors: {
       origin: '*',
     },
   } as ServerOptions;
 
+  // Initialize socket
   const io = new SocketIO(server, options);
 
+  // Listen for client connection
   io.on('connection', (socket: Socket): void => {
+    // Log client connection
     logger(`Client connected [id=${socket.id}]`);
 
-    //TODO: Check if Raspberry Pi is connected to the server
-
+    // Listen for client disconnection
     socket.on('disconnect', (): void => {
+      // Log client disconnection
       logger('Client disconnected');
     });
 
+    // Listen for gesture event from client
+    // Will then emit gesture to client based on leapMotion data
     socket.on('gesture', (): void => {
       logger('Gesture Requested');
-      //TODO: Send gesture to frontend via socket.io
-      io.emit('gesture', 'idle');
+
+      // Set default gesture to idle
+      let handGesture: string = 'idle';
+
+      // Get horizontal and vertical movement from leapMotion
+      const horizontal: number = leapMotion.default.getHorizontalMovement();
+      const vertical: number = leapMotion.default.getVerticalMovement();
+      const isMoving: boolean = leapMotion.default.getIsActive();
+
+      // Check if hand is moving and in which direction. If not moving, set gesture to idle
+      if (isMoving) {
+        if (horizontal > 0) {
+          handGesture = 'right';
+        } else if (horizontal < 0) {
+          handGesture = 'left';
+        } else if (vertical < 0) {
+          handGesture = 'forward';
+        } else if (vertical > 0) {
+          handGesture = 'backward';
+        }
+      }
+
+      // Emit gesture to client
+      io.emit('gesture', handGesture);
     });
 
+    // Listen for movement event from client
+    // Will then post movement to Raspberry Pi Pico based on button pressed on client
     socket.on('movement', (movement: string = 'idle'): void => {
       logger(`Movement Requested ${movement}`);
       post(`/movement?MOVE=${movement}`);
