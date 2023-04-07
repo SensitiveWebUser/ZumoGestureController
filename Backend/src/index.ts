@@ -12,6 +12,10 @@ import { app } from './app';
 // Import Sockets from sockets.js
 import sockets from './sockets';
 
+// Import LeapMotion from leapMotion.js
+import * as leapMotion from './leapMotion';
+leapMotion;
+
 // Create debug logger
 const logger: Debugger = debug('backend:startup');
 
