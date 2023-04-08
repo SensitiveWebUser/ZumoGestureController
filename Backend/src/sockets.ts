@@ -82,16 +82,6 @@ export default (server: Server, leapMotion: any): void => {
     socket.on('speed', (speed: number = 0): void => {
       logger(`Speed Requested ${speed}`);
       post(`/speed?SPEED=${speed}`);
-
-      /*
-if (speed > 0) {
-      socket.emit('accelerate');
-    } else if (speed < 0) {
-      socket.emit('decelerate');
-    } else {
-      socket.emit('stop');
-    }
-      */
     });
   });
 };
