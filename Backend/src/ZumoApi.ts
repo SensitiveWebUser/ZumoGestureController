@@ -8,7 +8,7 @@ import { ZumoApiError } from './errors';
 // Create debug logger
 const logger: Debugger = debug('backend:zumoAPI');
 
-const baseURL: string = process.env!.RASPBERRY_PI_PICO as string;
+const baseURL: string = ('http://' + process.env!.RASPBERRY_PI_PICO) as string;
 
 const instance: AxiosInstance = axios.create({
   baseURL: baseURL,
