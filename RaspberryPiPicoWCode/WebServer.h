@@ -16,14 +16,17 @@ const char* password = PASSWORD;
 #define PORT 80
 
 /* Incoming codes list
-  - 1: Moves Zumo Forwards
-  - 2: Moves Zumo Left
-  - 3: Moves Zumo Right
-  - 4: Moves Zumo Backwards
-  - 5: Accelerate Zumo Motor Speeds
-  - 6: Decelerate Zumo Motor Speeds
-  ...
+  - 1: Moves Zumo Forward insted of Backwards
+  - 2: Moves Zumo Left insted of Right
+  - 3: Moves Zumo Right insted of Left
+  - 4: Moves Zumo Backwards insted of Forward
+  - 5: Veers Zumo forward and Left insted of Right
+  - 8: Veers Zumo forward and Right insted of Left
+  - 7: Veers Zumo backwards and Left insted of Right
+  - 8: Veers Zumo backwards and Right insted of Left
   - 9: Stops Motors
+  - <: Decrease Zumo Motor Speeds
+  - >: Increase Zumo Motor Speeds
 */
 
 // Sets Web-servers configs
@@ -74,22 +77,23 @@ void handleMovement() {
       // Sends command to Zumo to stop if no movement is detected, else sends movement commands
       if (horizontal == "0" && vertical == "0") {
         SERIAL_COM.println("9");
-      } else {
-
-        // Sends command to Zumo to move depending on the horizontal value
-        if (horizontal == "1") {
-          SERIAL_COM.println("4");
-        } else if (horizontal == "-1") {
-          SERIAL_COM.println("1");
-        }
-
-        // Sends command to Zumo to move depending on the vertical value
-        if (vertical == "1") {
-          SERIAL_COM.println("3");
-        } else if (vertical == "-1") {
-          SERIAL_COM.println("2");
-        }
-      }
+      } else if (horizontal == "0" && vertical == "1") {
+        SERIAL_COM.println("1");
+      } else if (horizontal == "0" && vertical == "-1") {
+        SERIAL_COM.println("4");
+      } else if (horizontal == "1" && vertical == "0") {
+        SERIAL_COM.println("3");
+      } else if (horizontal == "-1" && vertical == "0") {
+        SERIAL_COM.println("2");
+      } else if (horizontal == "1" && vertical == "1") {
+        SERIAL_COM.println("5");
+      } else if (horizontal == "-1" && vertical == "1") {
+        SERIAL_COM.println("6");
+      } else if (horizontal == "1" && vertical == "-1") {
+        SERIAL_COM.println("7");
+      } else if (horizontal == "-1" && vertical == "-1") {
+        SERIAL_COM.println("8");
+      } 
 
       // Sends 200 OK to client
       server.send(200);
@@ -120,9 +124,9 @@ void handleSpeed() {
 
       // Sends command to Zumo to change speed depending on the speed value, else sends stop command
       if (speed == "1") {
-        SERIAL_COM.println("5");
+        SERIAL_COM.println(">");
       } else if (speed == "-1") {
-        SERIAL_COM.println("6");
+        SERIAL_COM.println("<");
       } else {
         SERIAL_COM.println("9");
       }
