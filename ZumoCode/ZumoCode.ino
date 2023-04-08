@@ -41,14 +41,17 @@ static const uint16_t EVENT_LED_INTERVAL = 1000;
 #include "Util.h"
 
 /* Incoming codes list
-  - 1: Moves Zumo Forwards
-  - 2: Moves Zumo Left
-  - 3: Moves Zumo Right
-  - 4: Moves Zumo Backwards
-  - 5: Accelerate Zumo Motor Speeds
-  - 6: Decelerate Zumo Motor Speeds
-  ...
+  - 1: Moves Zumo Forward insted of Backwards
+  - 2: Moves Zumo Left insted of Right
+  - 3: Moves Zumo Right insted of Left
+  - 4: Moves Zumo Backwards insted of Forward
+  - 5: Veers Zumo forward and Left insted of Right
+  - 8: Veers Zumo forward and Right insted of Left
+  - 7: Veers Zumo backwards and Left insted of Right
+  - 8: Veers Zumo backwards and Right insted of Left
   - 9: Stops Motors
+  - <: Decrease Zumo Motor Speeds
+  - >: Increase Zumo Motor Speeds
 */
 
 void setup() {
@@ -89,43 +92,66 @@ void loop() {
   }
 }
 
-// Function to handle manual control commands
 void control(char cmd) {
 
     switch (cmd) {
       case '1':
         // Set both motors to run forward at the same speed
-        leftMotorSpeed += motorSpeed;
-        rightMotorSpeed += motorSpeed;
+        leftMotorSpeed = motorSpeed;
+        rightMotorSpeed = motorSpeed;
         Logger("Moving Zumo Forwards");
         break;
       case '2':
-        // Set the left motor to run backward and the right motor to run forward
-        leftMotorSpeed += -rotationSpeed;
-        rightMotorSpeed += rotationSpeed;
+        // Set the right motor to run forward and decrease the speed of the left motor
+        leftMotorSpeed = -rotationSpeed;
+        rightMotorSpeed = motorSpeed;
         Logger("Moving Zumo Left");
         break;
       case '3':
-        // Set the left motor to run forward and the right motor to run backward
-        leftMotorSpeed += rotationSpeed;
-        rightMotorSpeed += -rotationSpeed;
+        // Set the left motor to run forward and decrease the speed of the right motor
+        leftMotorSpeed = motorSpeed;
+        rightMotorSpeed = -rotationSpeed;
         Logger("Moving Zumo Right");
         break;
       case '4':
         // Set both motors to run backward at the same speed
-        leftMotorSpeed += -motorSpeed;
-        rightMotorSpeed += -motorSpeed;
+        leftMotorSpeed = -motorSpeed;
+        rightMotorSpeed = -motorSpeed;
         Logger("Moving Zumo Backwards");
         break;
       case '5':
-        // Increase the speed multiplier
-        updateMultiplier(multiplier + 1);
-        Logger("Speeding Zumo Up");
+        // Set the left motor to run forward and decrease the speed of the right motor
+        leftMotorSpeed = motorSpeed;
+        rightMotorSpeed = (motorSpeed - rotationSpeed);
+        Logger("Veering Zumo forward and Left");
         break;
       case '6':
-        // Decrease the speed multiplier
+        // Set the right motor to run forward and decrease the speed of the left motor
+        leftMotorSpeed = (motorSpeed - rotationSpeed);
+        rightMotorSpeed = motorSpeed;
+        Logger("Veering Zumo forward and Right");
+        break;
+      case '7':
+        // Set the left motor to run backward and increase the speed of the right motor
+        leftMotorSpeed = -motorSpeed;
+        rightMotorSpeed = -(motorSpeed + rotationSpeed);
+        Logger("Veering Zumo backward and Left");
+        break;
+      case '8':
+        // Set the right motor to run backward and increase the speed of the left motor
+        leftMotorSpeed = -(motorSpeed + rotationSpeed);
+        rightMotorSpeed = -motorSpeed;
+        Logger("Veering Zumo backward and Right");
+        break;
+      case '<':
+        // Decrease both motor speeds
         updateMultiplier(multiplier - 1);
-        Logger("Slowing Zumo Down");
+        Logger("Decreasing Zumo Motor Speeds");
+        break;
+      case '>':
+        // Increase both motor speeds
+        updateMultiplier(multiplier + 1);
+        Logger("Increasing Zumo Motor Speeds");
         break;
       case '9':
       default:
@@ -133,7 +159,7 @@ void control(char cmd) {
         leftMotorSpeed = 0;
         rightMotorSpeed = 0;
         Logger("Stopping Zumo");
-    }
+}
 
     motors.setSpeeds(leftMotorSpeed, rightMotorSpeed);
 
