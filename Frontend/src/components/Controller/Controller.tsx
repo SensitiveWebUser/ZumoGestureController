@@ -16,11 +16,11 @@ import { Button } from '../Button';
 const Movement = {
   Forward: {
     horizontal: 0,
-    vertical: -1,
+    vertical: 1,
   } as Imove,
   Backward: {
     horizontal: 0,
-    vertical: 1,
+    vertical: -1,
   } as Imove,
   Left: {
     horizontal: -1,
