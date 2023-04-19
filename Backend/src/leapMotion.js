@@ -83,9 +83,9 @@ const handleHandMovement = (frame) => {
 
     // Vertical movement
     if (forwardBackward > verticalMovementThreshold) {
-      verticalMovement = 1;
-    } else if (forwardBackward < -verticalMovementThreshold) {
       verticalMovement = -1;
+    } else if (forwardBackward < -verticalMovementThreshold) {
+      verticalMovement = 1;
     } else {
       verticalMovement = 0;
     }
@@ -111,24 +111,38 @@ const handleGestures = (frame) => {
     // Check the type of gesture
     switch (gesture.type) {
       case 'circle':
-        //logger('Circle gesture detected, data: ', gesture);
-        break;
-      case 'swipe':
-        //logger('Swipe gesture detected, data: ', gesture);
+        logger('Circle gesture detected');
+
+        // Check if the gesture is a stop and if the radius is bigger than 140
+        if (gesture.state === 'stop' && gesture.radius > 140) {
+          // Check if the gesture is clockwise or counter-clockwise
+          var clockwise = false;
+          var pointableID = gesture.pointableIds[0];
+          var direction = frame.pointable(pointableID).direction;
+          var dotProduct = Leap.vec3.dot(direction, gesture.normal);
+
+          // Check if the dot product is positive or negative
+          if (dotProduct > 0) clockwise = true;
+
+          // If the gesture is clockwise, set the speed to 1, else set it to -1,
+          // Then send the speed to the API
+          if (clockwise) {
+            logger('Clockwise');
+            post('/speed?SPEED=1');
+          } else {
+            logger('Counter-clockwise');
+            post('/speed?SPEED=-1');
+          }
+        }
         break;
       case 'screenTap':
-        logger('Screen tap gesture detected, data: ', gesture);
+        logger('Screen tap gesture detected');
         isActive = !isActive;
 
         // Send the active state to the API to toggle the stop
         if (!isActive) {
           post('/speed?SPEED=0');
         }
-        break;
-      case 'keyTap':
-        logger('Key tap gesture detected, data: ', gesture);
-        break;
-      default:
         break;
     }
     // Save the last gesture

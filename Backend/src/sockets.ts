@@ -54,15 +54,15 @@ export default (server: Server, leapMotion: any): void => {
           handGesture = 'right';
         } else if (horizontal < 0) {
           handGesture = 'left';
-        } else if (vertical < 0) {
-          handGesture = 'forward';
         } else if (vertical > 0) {
+          handGesture = 'forward';
+        } else if (vertical < 0) {
           handGesture = 'backward';
         }
       }
 
       // Emit gesture to client
-      io.emit('gesture', handGesture);
+      io.emit('gesture', { gesture: handGesture, isMoving });
     });
 
     // Listen for movement event from client

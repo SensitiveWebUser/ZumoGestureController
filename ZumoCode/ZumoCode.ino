@@ -26,7 +26,7 @@ static const bool DEBUG_STATE = true;
 #define MOTOR_SPEED 100
 static uint16_t multiplier = 1;
 static uint16_t motorSpeed = MOTOR_SPEED * multiplier;
-static uint16_t rotationSpeed = MOTOR_SPEED * 0.5f;
+static uint16_t rotationSpeed = MOTOR_SPEED * 0.75f;
 
 // Motor Speeds
 static int16_t leftMotorSpeed = 0;

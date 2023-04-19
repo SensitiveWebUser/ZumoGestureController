@@ -16,7 +16,7 @@ export interface Gesture {
 export const Gestures: Gesture = {
   backward: {
     asset: DownwardIcon({}),
-    name: 'downward',
+    name: 'backwards',
   },
   left: {
     asset: LeftwardIcon({}),
@@ -28,7 +28,7 @@ export const Gestures: Gesture = {
   },
   forward: {
     asset: UpwardIcon({}),
-    name: 'upward',
+    name: 'forwards',
   },
   idle: {
     asset: MemeGestureIcon({}),

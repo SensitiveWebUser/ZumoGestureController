@@ -35,6 +35,8 @@
     "gesturePanel": {
       "title": "Gesture Panel",
       "subtitle": "Control the robot, using the hand gestures.",
+      "active": "Active",
+      "inactive": "Inactive",
       "gestures": {
         "forwards": "Forwards",
         "backwards": "Backwards",
