@@ -6,7 +6,7 @@
 #include <LEAmDNS.h>
 
 // Sets Wirless Connection to local network
-#define SSID "Alex's-Rust-Bucket"
+#define SSID "Alex-Rust-Bucket"
 #define PASSWORD "w4XxXpXd"
 
 const char* ssid = SSID;
@@ -163,11 +163,13 @@ void ServerStartup() {
   // Initialize WIFI communication
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
+  
+  const uint16_t startTime = millis();
 
   // Get connection to WIFI
   while (WiFi.status() != WL_CONNECTED) {
-    delay(250);
-    Logger('.');
+      delay(250);
+      Logger(".");
   }
 
   // Connection established sending message to debuger

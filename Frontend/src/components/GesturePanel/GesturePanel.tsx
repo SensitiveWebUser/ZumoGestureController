@@ -18,19 +18,27 @@ export const GesturePanel = (): JSX.Element => {
   const theme: Theme = useTheme();
   const socket: Socket = useContext(SocketContext);
 
+  // Gesture state
   const [gesture, setGesture] = useState<string>('idle');
+  const [isMoving, setIsMoving] = useState<boolean>(false);
 
-  socket.on('gesture', (gesture: string): void => {
-    console.log('Gesture received: ', gesture);
-    setGesture(gesture);
-  });
+  // When the server emits a gesture event, update the gesture state
+  socket.on(
+    'gesture',
+    (incomingGesture: { gesture: string; isMoving: boolean }): void => {
+      if (gesture !== incomingGesture.gesture)
+        setGesture(incomingGesture.gesture);
+      if (isMoving !== incomingGesture.isMoving)
+        setIsMoving(incomingGesture.isMoving);
+    }
+  );
 
   // Every 1 second, emit a gesture event to the server
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval: NodeJS.Timer = setInterval((): void => {
       socket.emit('gesture');
     }, 1000);
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -106,6 +114,22 @@ export const GesturePanel = (): JSX.Element => {
                       >
                         {t(
                           `components.gesturePanel.gestures.${Gestures[gesture].name}`
+                        )}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: theme.palette.primary.main,
+                          fontWeight: 'bold',
+                          alignItems: 'center',
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        {t(
+                          isMoving
+                            ? 'components.gesturePanel.active'
+                            : 'components.gesturePanel.inactive'
                         )}
                       </Typography>
                     </Box>
