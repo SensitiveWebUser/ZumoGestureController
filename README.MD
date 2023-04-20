@@ -56,3 +56,64 @@ To run the frontend, install the packages via `npm i` and then run `npm start de
 > The backend is designed to run on a local machine. It is not designed to be deployed to a server.
 
 To run the backend, install the packages via `npm i` and then run `npm start dev`. The backend is configured to run on `localhost:3001`.
+
+## Dependencies
+
+### Frontend
+
+- [React](https://reactjs.org/)
+- [react-dom](https://reactjs.org/docs/react-dom.html)
+- [react-router-dom](https://reactrouter.com/web/guides/quick-start)
+- [react-scripts](https://www.npmjs.com/package/react-scripts)
+- [react-i18next](https://react.i18next.com/)
+- [i18next](https://www.i18next.com/)
+- [i18next-browser-languagedetector](https://www.npmjs.com/package/i18next-browser-languagedetector)
+- [i18next-http-backend](https://www.npmjs.com/package/i18next-http-backend)
+- [socket.io-client](https://socket.io/docs/v4/client-api/)
+- [typescript](https://www.typescriptlang.org/)
+- [web-vitals](https://www.npmjs.com/package/web-vitals)
+- [eslint](https://eslint.org/)
+- [prettier](https://prettier.io/)
+- [@mui/material](https://mui.com/)
+- [@mui/icons-material](https://mui.com/)
+- [@mui/styles](https://mui.com/)
+- [@mui/react](https://mui.com/)
+
+### Backend
+
+- [express](https://expressjs.com/)
+- [socket.io](https://socket.io/)
+- [typescript](https://www.typescriptlang.org/)
+- [ts-node](https://www.npmjs.com/package/ts-node)
+- [ts-node-dev](https://www.npmjs.com/package/ts-node-dev)
+- [eslint](https://eslint.org/)
+- [prettier](https://prettier.io/)
+- [leapjs](https://www.npmjs.com/package/leapjs)
+- [helmet](https://helmetjs.github.io/)
+- [cors](https://www.npmjs.com/package/cors)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [axios](https://www.npmjs.com/package/axios)
+
+### Zumo Robot
+
+- [Arduino IDE](https://www.arduino.cc/en/software)
+- [Zumo32U4](https://pololu.github.io/zumo-32u4-arduino-library/)
+- [Pololu Zumo 32U4 library](https://github.com/pololu/zumo-32u4-arduino-library/blob/master/examples/MazeSolver/TurnSensor.h)
+- [WString.h](https://www.arduino.cc/reference/en/language/variables/data-types/stringobject/)
+
+### Raspberry Pi Pico W
+
+- [Raspberry Pi Pico W](https://www.raspberrypi.org/products/raspberry-pi-pico/)
+- [Raspberry Pi Pico W SDK](https://www.raspberrypi.org/documentation/rp2040/getting-started/)
+- WiFi
+- WiFiClient
+- WiFiServer
+- LEAmDNS
+
+## YouTube Videos
+
+- [Zumo Gesture Controller Project](https://youtu.be/0-o580kOyuM)
+
+## License
+
+CC BY-NC-SA 4.0 © [SensitiveWebUser](https://github.com/SensitiveWebUser)
